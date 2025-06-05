@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AI Poem Generator</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f3e5f5;
+            margin: 0;
+        }
+        .poem-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+        h1 {
+            color: #4a148c;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ce93d8;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #ab47bc;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #8e24aa;
+        }
+        .poem-line {
+            margin: 5px 0;
+            font-size: 1.1em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="poem-container">
+        <h1>AI Poem Generator</h1>
+        <form method="POST">
+            <label for="poem_topic"><strong>Enter a topic:</strong></label><br>
+            <input type="text" id="poem_topic" name="poem_topic" placeholder="e.g. moon, courage, sadness" required>
+            <br><br>
+            <button type="submit">Generate Poem</button>
+        </form>
+
+        {% if poem %}
+        <div style="margin-top: 30px;">
+            {% for line in poem %}
+                <p class="poem-line">{{ line }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

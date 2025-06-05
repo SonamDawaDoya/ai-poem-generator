@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>AI Poem Generator</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f3e5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 700px;
+            margin-top: 50px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #e1bee7;
+            border-bottom: 1px solid #ce93d8;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        .header .logo h1 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #4a148c;
+        }
+        .header .nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #4a148c;
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #4a148c;
+        }
+        .form-group textarea,
+        .form-group input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #e1bee7;
+            border-radius: 5px;
+            font-size: 1em;
+            resize: vertical;
+        }
+        button {
+            background-color: #ab47bc;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #8e24aa;
+        }
+        .generate-button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        #poem-output {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f3e5f5;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #4a148c;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        .poem-version-btn {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 5px 10px;
+            background-color: #e1bee7;
+            color: #4a148c;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .poem-version-btn.active {
+            background-color: #ba68c8;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>AI Poem Generator</h1>
+        </div>
+        <nav class="nav">
+            <a href="#">Home</a>
+            <a href="#">Blog</a>
+            <a href="#">Contact</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <form method="POST">
+            <div class="form-group">
+                <label for="poem_topic">Topic (e.g., love, nature, melody):</label>
+                <input type="text" id="poem_topic" name="poem_topic" placeholder="Type a theme or word (e.g. nature, hope)" value="{{ poem_topic }}">
+            </div>
+            <div class="generate-button-container">
+                <button type="submit">Generate Poem</button>
+            </div>
+        </form>
+
+        {% if generated_poems %}
+            <div class="results-section">
+                <h2>Generated Poem</h2>
+                <div class="poem-versions">
+                    <span>Choose Version:</span>
+                    {% for i in range(generated_poems|length) %}
+                         <span class="poem-version-btn {% if i == selected_poem_index %}active{% endif %}">Poem {{ i + 1 }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div id="poem-output">
+                {% set poem_to_display = generated_poems[selected_poem_index] %}
+                {% for stanza in poem_to_display %}
+                    {% for line in stanza %}
+                        <p>{{ line }}</p>
+                    {% endfor %}
+                    {% if not loop.last %}
+                        <p>&nbsp;</p> <!-- Space between stanzas -->
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
